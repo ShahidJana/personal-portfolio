@@ -86,7 +86,7 @@ const About = () => {
                         <div className="w-8 h-[1px] bg-cyan-400" />
                     </div>
                     <h2 className="text-6xl sm:text-8xl md:text-[10rem] lg:text-[12rem] font-black font-archivo text-white leading-none tracking-tighter uppercase relative">
-                        About Me
+                        About<span className="text-cyan-400">.</span>
                         <motion.span
                             className="absolute -top-4 -right-8 text-xl font-mono text-cyan-400 opacity-50"
                             animate={{ opacity: [0.2, 0.8, 0.2] }}
@@ -122,7 +122,7 @@ const About = () => {
                                 <motion.img
                                     src={profileImg}
                                     alt="Shahid Hussain"
-                                    className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700"
+                                    className="w-full h-full object-cover object-top contrast-105 group-hover:contrast-110 transition-all duration-700"
                                 />
                                 {/* Data Glitch Overlay */}
                                 <div className="absolute inset-0 bg-cyan-400/10 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />

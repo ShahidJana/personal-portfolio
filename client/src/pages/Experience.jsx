@@ -50,7 +50,7 @@ const Experience = () => {
                         <span className="text-cyan-400 font-mono text-xs tracking-[0.6em] uppercase">Occupational History</span>
                         <span className="w-12 h-[1px] bg-cyan-400" />
                     </div>
-                    <h2 className="text-5xl sm:text-7xl md:text-9xl lg:text-[11rem] font-black font-archivo text-white leading-none tracking-tighter">
+                    <h2 className="text-5xl sm:text-7xl md:text-9xl lg:text-[11rem] font-black font-archivo text-white leading-none tracking-tighter uppercase">
                         Career<span className="text-cyan-400">.</span>
                     </h2>
                 </motion.div>

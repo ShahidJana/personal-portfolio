@@ -68,7 +68,7 @@ const Skills = () => {
                         <span className="text-cyan-400 font-mono text-[10px] tracking-[0.5em] uppercase">Core_Modules</span>
                     </div>
                     <h2 className="text-6xl sm:text-8xl md:text-[11rem] font-black font-archivo text-white leading-none tracking-tighter uppercase relative">
-                        Arsen<span className="text-cyan-400">al</span>
+                        Arsenal<span className="text-cyan-400">.</span>
                         <motion.div
                             className="absolute -bottom-4 right-0 text-xs font-mono text-cyan-400/50"
                             animate={{ opacity: [0.2, 0.8, 0.2] }}
@@ -118,12 +118,12 @@ const Skills = () => {
                             </div>
 
                             <div className="space-y-4">
-                                <p className="text-gray-400 text-base md:text-xl font-medium leading-relaxed uppercase tracking-wide">
+                                <p className="text-gray-400 text-xs md:text-xs font-medium leading-relaxed uppercase tracking-wide">
                                     {skill.description}
                                 </p>
                                 <div className="flex items-center gap-4">
                                     <div className="h-[1px] flex-grow bg-white/5" />
-                                    <span className="text-[10px] font-mono text-cyan-400/50 uppercase tracking-[0.2em]">{skill.category}</span>
+                                    <span className="text-[12px] font-mono text-cyan-400/50 uppercase tracking-[0.2em]">{skill.category}</span>
                                 </div>
                             </div>
 

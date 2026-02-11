@@ -94,85 +94,198 @@ app.post('/api/contact', async (req, res) => {
       await newMessage.save();
     }
 
-    // Email to portfolio owner
     const mailToOwner = {
-      from: `"Portfolio Contact Form" <${process.env.EMAIL_USER}>`,
+      from: `"Portfolio System" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
-      subject: `Portfolio Contact: ${subject}`,
+      subject: `[NEW_MESSAGE]: ${subject} from ${name}`,
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9fafb; border-radius: 10px;">
-          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 10px 10px 0 0; text-align: center;">
-            <h1 style="color: white; margin: 0; font-size: 24px;">New Contact Form Submission</h1>
-          </div>
-          
-          <div style="background-color: white; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-            <h2 style="color: #333; margin-top: 0;">Contact Details</h2>
-            
-            <div style="margin: 20px 0;">
-              <p style="margin: 10px 0;"><strong style="color: #667eea;">Name:</strong> ${name}</p>
-              <p style="margin: 10px 0;"><strong style="color: #667eea;">Email:</strong> <a href="mailto:${email}" style="color: #764ba2;">${email}</a></p>
-              <p style="margin: 10px 0;"><strong style="color: #667eea;">Subject:</strong> ${subject}</p>
-            </div>
-            
-            <div style="margin-top: 20px; padding: 20px; background-color: #f3f4f6; border-left: 4px solid #667eea; border-radius: 5px;">
-              <h3 style="color: #333; margin-top: 0;">Message:</h3>
-              <p style="color: #555; line-height: 1.6; white-space: pre-wrap;">${message}</p>
-            </div>
-            
-            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center; color: #6b7280; font-size: 12px;">
-              <p>This email was sent from your portfolio contact form</p>
-              <p>Received on: ${new Date().toLocaleString()}</p>
-            </div>
-          </div>
-        </div>
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>New Contact Transmission</title>
+        </head>
+        <body style="margin: 0; padding: 0; background-color: #020408; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -webkit-font-smoothing: antialiased; color: #e2e8f0;">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td align="center" style="padding: 40px 0;">
+                <table width="600" border="0" cellspacing="0" cellpadding="0" style="background-color: #0a0f18; border: 1px solid #1e293b; border-radius: 8px; overflow: hidden; max-width: 100%;">
+                  
+                  <!-- Header -->
+                  <tr>
+                    <td style="background: #0f172a; padding: 40px 20px; text-align: center; border-bottom: 1px solid #1e293b;">
+                      <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">Incoming <span style="color: #22d3ee;">Message</span></h1>
+                      <div style="margin-top: 10px; display: inline-block; padding: 5px 15px; background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.3); border-radius: 20px;">
+                        <span style="color: #22d3ee; font-size: 12px; font-weight: 500; letter-spacing: 0.5px;">NEW INQUIRY RECEIVED</span>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Content -->
+                  <tr>
+                    <td style="padding: 40px 40px 20px;">
+                      <p style="color: #94a3b8; font-size: 16px; line-height: 1.8; margin-bottom: 25px;">
+                        <strong>System Alert:</strong> A new contact form submission has been intercepted from your portfolio interface.
+                      </p>
+                      
+                       <!-- Details Block -->
+                      <div style="background-color: #1e293b; border-radius: 4px; padding: 20px; margin-bottom: 25px;">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td style="padding-bottom: 10px; color: #94a3b8; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Sender Name</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-bottom: 20px; color: #ffffff; font-weight: 600; font-size: 16px;">${name}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-bottom: 10px; color: #94a3b8; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Sender Email</td>
+                            </tr>
+                            <tr>
+                                <td style="padding-bottom: 20px; color: #22d3ee; font-weight: 600; font-size: 16px;">
+                                    <a href="mailto:${email}" style="color: #22d3ee; text-decoration: none;">${email}</a>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td style="padding-bottom: 10px; color: #94a3b8; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Subject</td>
+                            </tr>
+                            <tr>
+                                <td style="color: #ffffff; font-weight: 600; font-size: 16px;">${subject}</td>
+                            </tr>
+                        </table>
+                      </div>
+
+                      <div style="background-color: #1e293b; border-left: 2px solid #22d3ee; padding: 20px; margin: 0 0 30px;">
+                        <p style="color: #cbd5e1; font-style: italic; margin: 0; font-size: 14px;">
+                          "${message}"
+                        </p>
+                      </div>
+
+                      <!-- Action Buttons -->
+                      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td align="center" style="padding-bottom: 30px;">
+                            <a href="mailto:${email}" style="display: inline-block; background-color: #22d3ee; color: #020408; padding: 14px 30px; border-radius: 2px; text-decoration: none; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;">
+                              Reply Now
+                            </a>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+
+                  <!-- Footer -->
+                  <tr>
+                    <td style="background-color: #020408; padding: 30px; text-align: center; border-top: 1px solid #1e293b;">
+                      
+                      <h4 style="color: #f1f5f9; margin: 0 0 5px; font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Shahid Hussain</h4>
+                      <p style="color: #22d3ee; margin: 0 0 20px; font-size: 12px; font-family: monospace;">MERN || FULL STACK DEVELOPER</p>
+                      
+                      <div style="margin-bottom: 20px;">
+                        <a href="mailto:janashahid999@gmail.com" style="color: #94a3b8; text-decoration: none; font-size: 13px; margin: 0 10px; transition: color 0.2s;">janashahid999@gmail.com</a>
+                        <span style="color: #334155;">|</span>
+                        <a href="tel:+923339571763" style="color: #94a3b8; text-decoration: none; font-size: 13px; margin: 0 10px; transition: color 0.2s;">+92 (333) 9571-763</a>
+                      </div>
+                      
+                      <p style="color: #475569; font-size: 10px; margin: 0; font-family: monospace;">
+                        SYSTEM_ID: ${new Date().getFullYear()} || SHAHID_HUSSAIN || ALL_RIGHTS_RESERVED
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+        </html>
       `
     };
 
-    // Auto-reply to sender
     const mailToSender = {
       from: `"Shahid Hussain" <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: 'Thank you for contacting me!',
+      subject: 'Connection Established | Shahid Hussain',
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9fafb; border-radius: 10px;">
-          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 10px 10px 0 0; text-align: center;">
-            <h1 style="color: white; margin: 0; font-size: 24px;">Thank You for Reaching Out!</h1>
-          </div>
-          
-          <div style="background-color: white; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-            <p style="color: #333; font-size: 16px; line-height: 1.6;">Hi <strong>${name}</strong>,</p>
-            
-            <p style="color: #555; line-height: 1.6;">
-              Thank you for contacting me through my portfolio website. I have received your message and will get back to you as soon as possible.
-            </p>
-            
-            <div style="margin: 25px 0; padding: 20px; background-color: #f3f4f6; border-radius: 8px;">
-              <p style="color: #333; margin: 0;"><strong>Your message:</strong></p>
-              <p style="color: #555; margin: 10px 0 0 0; font-style: italic;">"${message.substring(0, 150)}${message.length > 150 ? '...' : ''}"</p>
-            </div>
-            
-            <p style="color: #555; line-height: 1.6;">
-              In the meantime, feel free to check out my 
-              <a href="https://github.com/shahidjana" style="color: #667eea; text-decoration: none;">GitHub</a> 
-              for more of my work.
-            </p>
-            
-            <p style="color: #333; margin-top: 25px;">
-              Best regards,<br>
-              <strong style="color: #667eea;">Shahid Hussain</strong><br>
-              <span style="color: #6b7280; font-size: 14px;">MERN | Full Stack Developer</span>
-            </p>
-            
-            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center;">
-              <p style="color: #6b7280; font-size: 12px; margin: 5px 0;">
-                📧 janashahid999@gmail.com | 📱 +92 (333) 9571-763
-              </p>
-              <p style="color: #6b7280; font-size: 12px; margin: 5px 0;">
-                📍 Rawalpindi, Pakistan
-              </p>
-            </div>
-          </div>
-        </div>
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Connection Established</title>
+        </head>
+        <body style="margin: 0; padding: 0; background-color: #020408; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -webkit-font-smoothing: antialiased; color: #e2e8f0;">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td align="center" style="padding: 40px 0;">
+                <table width="600" border="0" cellspacing="0" cellpadding="0" style="background-color: #0a0f18; border: 1px solid #1e293b; border-radius: 8px; overflow: hidden; max-width: 100%;">
+                  
+                  <!-- Header -->
+                  <tr>
+                    <td style="background: #0f172a; padding: 40px 20px; text-align: center; border-bottom: 1px solid #1e293b;">
+                      <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">Hello, <span style="color: #22d3ee;">${name.split(' ')[0]}</span></h1>
+                      <div style="margin-top: 10px; display: inline-block; padding: 5px 15px; background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.3); border-radius: 20px;">
+                        <span style="color: #22d3ee; font-size: 12px; font-weight: 500; letter-spacing: 0.5px;">MESSAGE RECEIVED SUCCESSFULLY</span>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Content -->
+                  <tr>
+                    <td style="padding: 40px 40px 20px;">
+                      <p style="color: #94a3b8; font-size: 16px; line-height: 1.8; margin-bottom: 25px;">
+                        Thank you for initiating contact. I have successfully received your transmission regarding <strong style="color: #f1f5f9;">"${subject}"</strong>.
+                      </p>
+                      
+                      <div style="background-color: #1e293b; border-left: 2px solid #22d3ee; padding: 20px; margin: 0 0 30px;">
+                        <p style="color: #cbd5e1; font-style: italic; margin: 0; font-size: 14px;">
+                          "${message.length > 150 ? message.substring(0, 150) + '...' : message}"
+                        </p>
+                      </div>
+
+                      <p style="color: #94a3b8; font-size: 15px; line-height: 1.8; margin-bottom: 30px;">
+                        I am currently reviewing your inquiry and will establish a return link shortly. In the meantime, you can inspect my source code and other projects.
+                      </p>
+
+                      <!-- Action Buttons -->
+                      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td align="center" style="padding-bottom: 30px;">
+                            <a href="${process.env.CLIENT_URL || 'http://localhost:5173'}" style="display: inline-block; background-color: #22d3ee; color: #020408; padding: 14px 30px; border-radius: 2px; text-decoration: none; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;">
+                              Return to Portfolio
+                            </a>
+                            <a href="https://github.com/shahidjana" style="display: inline-block; background-color: transparent; color: #f1f5f9; padding: 14px 30px; border: 1px solid #334155; border-radius: 2px; text-decoration: none; font-weight: 600; font-size: 14px; margin-left: 15px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;">
+                              Access GitHub
+                            </a>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+
+                  <!-- Footer -->
+                  <tr>
+                    <td style="background-color: #020408; padding: 30px; text-align: center; border-top: 1px solid #1e293b;">
+                      
+                      <h4 style="color: #f1f5f9; margin: 0 0 5px; font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Shahid Hussain</h4>
+                      <p style="color: #22d3ee; margin: 0 0 20px; font-size: 12px; font-family: monospace;">MERN || FULL STACK DEVELOPER</p>
+                      
+                      <div style="margin-bottom: 20px;">
+                        <a href="mailto:janashahid999@gmail.com" style="color: #94a3b8; text-decoration: none; font-size: 13px; margin: 0 10px; transition: color 0.2s;">janashahid999@gmail.com</a>
+                        <span style="color: #334155;">|</span>
+                        <a href="tel:+923339571763" style="color: #94a3b8; text-decoration: none; font-size: 13px; margin: 0 10px; transition: color 0.2s;">+92 (333) 9571-763</a>
+                      </div>
+                      
+                      <p style="color: #475569; font-size: 10px; margin: 0; font-family: monospace;">
+                        SYSTEM_ID: ${new Date().getFullYear()} || SHAHID_HUSSAIN || ALL_RIGHTS_RESERVED
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+        </html>
       `
     };
 

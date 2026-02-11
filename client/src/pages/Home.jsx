@@ -104,7 +104,7 @@ const Home = () => {
                                 <motion.img
                                     src={profileImg}
                                     alt="Shahid Hussain"
-                                    className="w-full h-full object-cover object-top grayscale contrast-125 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-1000"
+                                    className="w-full h-full object-cover object-top contrast-105 group-hover:contrast-110 transition-all duration-1000"
                                     initial={{ scale: 1.2 }}
                                     animate={{ scale: 1 }}
                                     transition={{ duration: 2 }}
