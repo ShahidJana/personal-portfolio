@@ -68,7 +68,7 @@ const Skills = () => {
                         <span className="text-cyan-400 font-mono text-[10px] tracking-[0.5em] uppercase">Core_Modules</span>
                     </div>
                     <h2 className="text-6xl sm:text-8xl md:text-[11rem] font-black font-archivo text-white leading-none tracking-tighter uppercase relative">
-                        Arsen<span className="text-cyan-400">al</span>
+                        Arsenal<span className="text-cyan-400">.</span>
                         <motion.div
                             className="absolute -bottom-4 right-0 text-xs font-mono text-cyan-400/50"
                             animate={{ opacity: [0.2, 0.8, 0.2] }}

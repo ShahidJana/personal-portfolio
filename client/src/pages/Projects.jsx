@@ -52,7 +52,7 @@ const Projects = () => {
                         <div className="w-2 h-2 bg-cyan-400 rotate-45" />
                     </div>
                     <h2 className="text-5xl sm:text-7xl md:text-9xl lg:text-[12rem] font-black font-archivo text-white leading-none tracking-tighter uppercase">
-                        Creations<span className="text-cyan-400 underline decoration-[0.1em] underline-offset-[-0.05em]">_</span>
+                        Creations<span className="text-cyan-400">.</span>
                     </h2>
                     <p className="mt-8 text-gray-500 text-lg md:text-xl font-bold tracking-widest uppercase max-w-3xl">
                         A repository of high-performance digital architectures and artistic experiments.
