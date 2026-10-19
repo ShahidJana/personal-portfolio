@@ -37,7 +37,11 @@ const Navbar = () => {
 
     return (
         <motion.nav
-            className="fixed bottom-0 left-0 w-full h-20 lg:top-0 lg:left-0 lg:h-screen lg:w-24 z-[1030] flex flex-row lg:flex-col items-center bg-transparent lg:bg-[#050810]/95 lg:bg-[#050810]/40 backdrop-blur-xl border-t lg:border-r lg:border-t-0 border-white/[0.03]"
+            className="fixed bottom-0 left-0 w-full h-20 lg:top-0 lg:left-0 lg:h-screen lg:w-24 z-[1030] flex flex-row lg:flex-col items-center bg-transparent lg:backdrop-blur-xl border-t lg:border-r lg:border-t-0"
+            style={{
+                backgroundColor: theme === 'light' ? 'rgba(240,244,248,0.92)' : 'rgba(5,8,16,0.6)',
+                borderColor: theme === 'light' ? 'rgba(15,23,42,0.08)' : 'rgba(255,255,255,0.03)'
+            }}
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -73,7 +77,7 @@ const Navbar = () => {
                                     `} />
 
                                     <motion.div
-                                        className={`relative z-10 text-xl lg:text-2xl transition-colors duration-300 ${isActive ? 'text-cyan-400' : 'text-gray-500 group-hover:text-white'}`}
+                                        className={`relative z-10 text-xl lg:text-2xl transition-colors duration-300 ${isActive ? 'text-cyan-400' : theme === 'light' ? 'text-gray-500 group-hover:text-gray-800' : 'text-gray-500 group-hover:text-white'}`}
                                         initial={{ opacity: 0, scale: 0.5 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         transition={{ delay: 0.1 + (index * 0.05) }}
@@ -125,7 +129,12 @@ const Navbar = () => {
                 {/* Theme Toggle & Indicators - Hidden on mobile/tablet */}
                 <div className="hidden lg:flex flex-col items-center gap-8 lg:pb-4">
                     <motion.button
-                        className="relative flex items-center justify-center w-12 h-12 bg-white/[0.03] border border-white/5 text-gray-400 rounded-sm cursor-pointer text-xl transition-all duration-300 hover:text-cyan-400 hover:border-cyan-400/30"
+                        className="relative flex items-center justify-center w-12 h-12 border text-xl rounded-sm cursor-pointer transition-all duration-300 hover:text-cyan-400 hover:border-cyan-400/30"
+                        style={{
+                            background: theme === 'light' ? 'rgba(15,23,42,0.05)' : 'rgba(255,255,255,0.03)',
+                            borderColor: theme === 'light' ? 'rgba(15,23,42,0.12)' : 'rgba(255,255,255,0.05)',
+                            color: theme === 'light' ? '#475569' : '#9ca3af'
+                        }}
                         onClick={toggleTheme}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
