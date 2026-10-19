@@ -1,5 +1,4 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion } from 'framer-motion';
 import { usePortfolio } from '../context/PortfolioContext';
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from '../utils/animations';
 import profileImg from '../assets/images/shahid.jpeg';
@@ -7,242 +6,214 @@ import profileImg from '../assets/images/shahid.jpeg';
 const About = () => {
     const { portfolioData } = usePortfolio();
     const { personal, skills, education } = portfolioData;
-    const containerRef = useRef(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start end", "end start"]
-    });
-
-    const xText = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
 
     return (
         <section
             id="about"
-            ref={containerRef}
-            className="relative min-h-screen py-32 flex flex-col items-center justify-center bg-[#020408] text-white overflow-hidden"
+            className="relative min-h-screen py-28 md:py-36 bg-[#020408] text-white overflow-hidden"
         >
-            {/* AGGRESSIVE CYBER-SYSTEM BACKGROUND */}
-            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-                {/* 1. Rolling Scanning Grid */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(34,211,238,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(34,211,238,0.05)_1px,transparent_1px)] bg-[size:60px_60px] opacity-20" />
-
-                {/* 2. Massive Background Label Scroll */}
-                <motion.div
-                    style={{ x: xText }}
-                    className="absolute top-1/2 -translate-y-1/2 left-0 whitespace-nowrap opacity-[0.03] select-none"
-                >
-                    <span className="text-[30rem] font-black font-archivo uppercase tracking-tighter leading-none stroke-text opacity-40">
-                        DATA_ARCHITECT / CORE_DEVELOPER / NEURAL_ENGINEER /
-                    </span>
-                </motion.div>
-
-                {/* 3. Falling Digital Streams (Matrix Style) */}
-                <div className="absolute inset-0 flex justify-around opacity-20">
-                    {[...Array(10)].map((_, i) => (
-                        <motion.div
-                            key={i}
-                            className="w-[1px] h-32 bg-gradient-to-b from-transparent via-cyan-400 to-transparent"
-                            animate={{ y: ['-100%', '1000%'] }}
-                            transition={{
-                                duration: Math.random() * 5 + 3,
-                                repeat: Infinity,
-                                ease: "linear",
-                                delay: Math.random() * 5
-                            }}
-                        />
-                    ))}
-                </div>
-
-                {/* 4. Peripheral HUD Markers */}
-                {[
-                    { label: "USR_ID", val: "SH_99", pos: "top-10 left-10" },
-                    { label: "MEM_LD", val: "84%", pos: "top-10 right-10" },
-                    { label: "NET_ID", val: "LOCAL_HOST", pos: "bottom-10 left-10" },
-                    { label: "VER_CF", val: "STABLE", pos: "bottom-10 right-10" }
-                ].map((hud, i) => (
-                    <motion.div
-                        key={i}
-                        className={`absolute ${hud.pos} flex flex-col items-center opacity-30`}
-                        animate={{ opacity: [0.1, 0.4, 0.1] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                    >
-                        <div className="w-8 h-[1px] bg-cyan-400 mb-1" />
-                        <span className="text-[8px] font-mono tracking-widest">{hud.label}: {hud.val}</span>
-                    </motion.div>
-                ))}
+            {/* ── Background ── */}
+            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(34,211,238,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.018)_1px,transparent_1px)] bg-[size:60px_60px]" />
+                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-cyan-500/[0.05] rounded-full blur-[160px]" />
+                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-600/[0.06] rounded-full blur-[140px]" />
             </div>
 
-            <div className="container mx-auto px-6 z-10 relative">
-                {/* SECTION HEADER - HIGH IMPACT */}
+            <div className="container mx-auto px-5 sm:px-8 z-10 relative">
+
+                {/* ── Header ── */}
                 <motion.div
-                    className="flex flex-col items-center mb-28 text-center"
+                    className="flex flex-col items-center mb-20 md:mb-28 text-center"
                     variants={fadeInUp}
                     initial="initial"
                     whileInView="animate"
+                    viewport={{ once: true }}
                 >
-                    <div className="inline-flex items-center gap-4 mb-2">
-                        <div className="w-8 h-[1px] bg-cyan-400" />
-                        <span className="text-cyan-400 font-mono text-xs tracking-[0.8em] uppercase">Identity Protocol</span>
-                        <div className="w-8 h-[1px] bg-cyan-400" />
+                    <div className="flex items-center gap-4 mb-5">
+                        <div className="h-px w-12 bg-gradient-to-r from-transparent to-cyan-400/60" />
+                        <span className="text-cyan-400 font-mono text-[10px] tracking-[0.6em] uppercase">Identity Protocol</span>
+                        <div className="h-px w-12 bg-gradient-to-l from-transparent to-cyan-400/60" />
                     </div>
-                    <h2 className="text-6xl sm:text-8xl md:text-[10rem] lg:text-[12rem] font-black font-archivo text-white leading-none tracking-tighter uppercase relative">
+                    <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black font-archivo text-white leading-none tracking-tighter uppercase">
                         About<span className="text-cyan-400">.</span>
-                        <motion.span
-                            className="absolute -top-4 -right-8 text-xl font-mono text-cyan-400 opacity-50"
-                            animate={{ opacity: [0.2, 0.8, 0.2] }}
-                            transition={{ duration: 1, repeat: Infinity }}
-                        >
-                            [01]
-                        </motion.span>
                     </h2>
                 </motion.div>
 
-                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-32 items-center">
-                    {/* PROFILE VISUAL - THE CORE */}
+                {/* ── Main Grid: Photo + Bio ── */}
+                <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start mb-16 md:mb-24">
+
+                    {/* Photo */}
                     <motion.div
-                        className="lg:col-span-5 relative"
+                        className="relative"
                         variants={fadeInLeft}
+                        initial="initial"
+                        whileInView="animate"
+                        viewport={{ once: true }}
                     >
-                        <div className="relative aspect-square group">
-                            {/* Animated Crosshairs */}
+                        <div className="group relative aspect-[4/5] max-w-sm mx-auto lg:mx-0">
+                            {/* rotating ring */}
                             <motion.div
-                                className="absolute -inset-10 border border-white/5 rounded-full z-0"
+                                className="absolute -inset-4 border border-cyan-400/10 rounded-sm"
                                 animate={{ rotate: 360 }}
-                                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
                             >
-                                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-[1px] bg-cyan-400" />
-                                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-[1px] bg-cyan-400" />
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-[1px] bg-cyan-400/60" />
+                                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-[1px] bg-cyan-400/60" />
                             </motion.div>
 
-                            {/* Inner Box with Skew Effect */}
-                            <motion.div
-                                className="relative z-10 w-full h-full border border-white/10 group-hover:border-cyan-400 transition-all duration-500 overflow-hidden"
-                                whileHover={{ scale: 1.05, rotateY: 10, skewX: 2 }}
-                            >
-                                <motion.img
+                            {/* image */}
+                            <div className="relative z-10 w-full h-full border border-white/[0.08] group-hover:border-cyan-400/40 transition-all duration-500 overflow-hidden">
+                                <img
                                     src={profileImg}
                                     alt="Shahid Hussain"
-                                    className="w-full h-full object-cover object-top contrast-105 group-hover:contrast-110 transition-all duration-700"
+                                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
                                 />
-                                {/* Data Glitch Overlay */}
-                                <div className="absolute inset-0 bg-cyan-400/10 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-                            </motion.div>
+                                {/* cyan tint overlay on hover */}
+                                <div className="absolute inset-0 bg-cyan-400/10 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                {/* gradient bottom */}
+                                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#020408]/80 to-transparent" />
+                            </div>
 
-                            {/* Floating Metadata Labels */}
-                            <div className="absolute -right-16 top-1/4 flex flex-col gap-4 text-[10px] font-mono text-cyan-400/80">
-                                <span>POS_Z: 404</span>
-                                <span>TYPE: DEV</span>
-                                <span>STAT: READY</span>
+                            {/* corner accents */}
+                            <div className="absolute top-3 left-3 w-5 h-5 border-t-2 border-l-2 border-cyan-400/40 z-20" />
+                            <div className="absolute bottom-3 right-3 w-5 h-5 border-b-2 border-r-2 border-cyan-400/40 z-20" />
+
+                            {/* floating tag */}
+                            <div className="absolute -bottom-4 -right-4 z-20 px-4 py-2 bg-[#07111e] border border-cyan-400/30 font-mono text-[10px] text-cyan-400 tracking-widest uppercase">
+                                MERN Stack Dev
                             </div>
                         </div>
                     </motion.div>
 
-                    {/* CONTENT - MISSION DATA */}
+                    {/* Bio */}
                     <motion.div
-                        className="lg:col-span-7 flex flex-col gap-12"
+                        className="flex flex-col gap-8"
                         variants={fadeInRight}
+                        initial="initial"
+                        whileInView="animate"
+                        viewport={{ once: true }}
                     >
                         <div className="space-y-4">
-                            <h3 className="text-3xl sm:text-4xl md:text-6xl font-black font-archivo text-white leading-[1.1]">
-                                Engineering the <br />
-                                <span className="text-[#06B6D4] stroke-text-cyan">Digital Frontier</span>
+                            <h3 className="text-3xl md:text-4xl font-black font-archivo text-white leading-tight uppercase">
+                                Building the <span className="text-cyan-400">Digital</span> Future
                             </h3>
-                            <div className="flex flex-wrap gap-4 mt-6">
-                                {skills.technical && skills.technical.map((skill, idx) => (
-                                    <div key={idx} className="group relative flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-white/10 rounded-sm hover:border-cyan-400/50 transition-all">
-                                        <span className={`text-xl ${skill.name === 'JavaScript' ? 'text-yellow-400' : 'text-cyan-400'}`}>
+                            <p className="text-gray-400 text-base leading-relaxed border-l-2 border-cyan-400/50 pl-4">
+                                {personal.about}
+                            </p>
+                            <p className="text-gray-500 text-sm leading-relaxed">
+                                Focused on the intersection of <span className="text-white font-semibold">logic and aesthetics</span>, I build responsive, performance-optimized applications that push the boundaries of modern web standards.
+                            </p>
+                        </div>
+
+                        {/* Quick info */}
+                        <div className="grid grid-cols-2 gap-4">
+                            {[
+                                { label: 'Location', value: 'Rawalpindi, Pakistan' },
+                                { label: 'Email', value: personal.email },
+                                { label: 'Phone', value: personal.phone },
+                                { label: 'Status', value: 'Open to Work' },
+                            ].map(({ label, value }) => (
+                                <div key={label} className="space-y-0.5">
+                                    <span className="text-[9px] font-mono text-cyan-400/60 uppercase tracking-widest">{label}</span>
+                                    <p className="text-xs text-gray-300 font-medium truncate">{value}</p>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Tech stack pills */}
+                        <div className="space-y-2">
+                            <span className="text-[9px] font-mono text-gray-600 uppercase tracking-widest">Tech Stack</span>
+                            <div className="flex flex-wrap gap-2">
+                                {skills.technical.map((skill, i) => (
+                                    <div key={i} className="group flex items-center gap-1.5 px-2.5 py-1 bg-white/[0.03] border border-white/[0.07] hover:border-cyan-400/40 hover:bg-cyan-400/5 transition-all duration-200 rounded-sm">
+                                        <span className={`text-base ${skill.name === 'JavaScript' ? 'text-yellow-400' : 'text-cyan-400'}`}>
                                             {skill.icons[0]}
                                         </span>
-                                        <span className="text-[10px] font-mono uppercase tracking-tighter text-gray-400 group-hover:text-white">
+                                        <span className="text-[9px] font-mono text-gray-500 group-hover:text-white transition-colors uppercase tracking-wide">
                                             {skill.name}
                                         </span>
                                     </div>
                                 ))}
                             </div>
-                            <div className="w-1/2 h-[2px] bg-gradient-to-r from-cyan-400/40 to-transparent" />
                         </div>
-
-                        <div className="space-y-8 text-gray-400 text-lg md:text-2xl leading-relaxed font-medium">
-                            <p className="border-l-4 border-cyan-400 pl-6 md:pl-8 py-2 bg-cyan-400/5 italic">
-                                {personal.about}
-                            </p>
-                            <p className="opacity-80">
-                                Focused on the intersection of <span className="text-white font-bold">logic and aesthetics</span>, I architect redundant, performance-optimized systems that push the boundaries of modern web standards.
-                            </p>
-                        </div>
-
-                        {/* SUB-SECTIONS: EDUCATION & LINGUISTICS & INTERESTS */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                            {/* EDUCATION */}
-                            <div className="space-y-6">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-2 h-2 bg-cyan-400 rotate-45" />
-                                    <h4 className="text-sm font-black font-archivo tracking-[0.3em] uppercase text-cyan-400">Educations</h4>
-                                </div>
-                                <div className="space-y-6 border-l border-white/5 pl-4">
-                                    {education.map((edu, idx) => (
-                                        <div key={idx} className="relative group">
-                                            <div className="absolute -left-[17px] top-2 w-2 h-2 rounded-full bg-white/10 group-hover:bg-cyan-400 transition-colors" />
-                                            <h5 className="text-white font-black font-archivo text-lg leading-tight uppercase tracking-tight">
-                                                {edu.degree}
-                                            </h5>
-                                            <p className="text-cyan-400/60 font-mono text-[10px] mt-1 uppercase tracking-widest">{edu.institution}</p>
-                                            <p className="text-gray-500 font-mono text-[10px] mt-0.5">{edu.period} || {edu.status}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="space-y-10">
-                                {/* LANGUAGES */}
-                                <div className="space-y-6">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-2 h-2 bg-yellow-500 rotate-45" />
-                                        <h4 className="text-sm font-black font-archivo tracking-[0.3em] uppercase text-yellow-500">Languages</h4>
-                                    </div>
-                                    <div className="flex flex-wrap gap-3">
-                                        {skills.languages.map((lang, idx) => (
-                                            <div key={idx} className="px-4 py-1.5 bg-yellow-500/5 border border-yellow-500/20 text-yellow-500 font-mono text-[10px] uppercase tracking-widest hover:bg-yellow-500/10 transition-colors">
-                                                {lang}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* INTERESTS */}
-                                <div className="space-y-6">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-2 h-2 bg-emerald-400 rotate-45" />
-                                        <h4 className="text-sm font-black font-archivo tracking-[0.3em] uppercase text-emerald-400">Interests</h4>
-                                    </div>
-                                    <div className="flex flex-wrap gap-3">
-                                        {skills.interests.map((interest, idx) => (
-                                            <div key={idx} className="px-4 py-1.5 bg-emerald-400/5 border border-emerald-400/20 text-emerald-400 font-mono text-[10px] uppercase tracking-widest hover:bg-emerald-400/10 transition-colors">
-                                                {interest}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Branded Skill Nodes */}
-                        {/* <div className="flex flex-wrap gap-4 pt-10 border-t border-white/5">
-                            {skills.additional.slice(0, 8).map((skill, idx) => (
-                                <motion.div
-                                    key={idx}
-                                    className="px-6 py-3 bg-white/[0.02] border border-white/5 relative group cursor-default"
-                                    whileHover={{ y: -5, backgroundColor: "rgba(34,211,238,0.05)" }}
-                                >
-                                    <div className="absolute top-0 left-0 w-1 h-1 bg-cyan-400 opacity-0 group-hover:opacity-100" />
-                                    <span className="text-xs font-black font-archivo tracking-[0.2em] text-white">
-                                        {skill.toUpperCase()}
-                                    </span>
-                                </motion.div>
-                            ))}
-                        </div> */}
                     </motion.div>
                 </div>
+
+                {/* ── Education + Languages + Interests ── */}
+                <motion.div
+                    className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6"
+                    variants={staggerContainer}
+                    initial="initial"
+                    whileInView="animate"
+                    viewport={{ once: true, margin: '-40px' }}
+                >
+                    {/* Education */}
+                    <motion.div
+                        className="md:col-span-2 border border-white/[0.06] bg-[#07111e]/60 backdrop-blur-xl rounded-sm p-6 md:p-8 space-y-6 group hover:border-cyan-400/25 transition-all duration-500"
+                        variants={fadeInUp}
+                    >
+                        <div className="flex items-center gap-3">
+                            <div className="w-1.5 h-1.5 bg-cyan-400 rotate-45" />
+                            <h4 className="text-xs font-black font-archivo tracking-[0.3em] uppercase text-cyan-400">Education</h4>
+                        </div>
+                        <div className="space-y-6 border-l border-white/[0.06] pl-5">
+                            {education.map((edu, i) => (
+                                <motion.div
+                                    key={i}
+                                    className="relative group/edu"
+                                    variants={fadeInUp}
+                                >
+                                    <div className="absolute -left-[21px] top-1.5 w-2 h-2 rounded-full bg-white/10 group-hover/edu:bg-cyan-400 transition-colors duration-300" />
+                                    <h5 className="text-white font-black font-archivo text-sm md:text-base leading-tight uppercase">
+                                        {edu.degree}
+                                    </h5>
+                                    <p className="text-cyan-400/60 font-mono text-[10px] mt-1 leading-relaxed">
+                                        {edu.institution}
+                                    </p>
+                                    <div className="flex items-center gap-3 mt-1.5">
+                                        <span className="text-gray-600 font-mono text-[9px]">{edu.period}</span>
+                                        <span className="w-1 h-1 bg-white/20 rounded-full" />
+                                        <span className="text-emerald-400/70 font-mono text-[9px] uppercase">{edu.status}</span>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </motion.div>
+
+                    {/* Languages + Interests */}
+                    <motion.div className="space-y-5" variants={fadeInUp}>
+
+                        {/* Languages */}
+                        <div className="border border-white/[0.06] bg-[#07111e]/60 backdrop-blur-xl rounded-sm p-6 space-y-4 hover:border-yellow-500/20 transition-all duration-500">
+                            <div className="flex items-center gap-3">
+                                <div className="w-1.5 h-1.5 bg-yellow-500 rotate-45" />
+                                <h4 className="text-xs font-black font-archivo tracking-[0.3em] uppercase text-yellow-500">Languages</h4>
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                                {skills.languages.map((lang, i) => (
+                                    <span key={i} className="px-3 py-1 bg-yellow-500/[0.06] border border-yellow-500/20 text-yellow-500 font-mono text-[9px] uppercase tracking-widest hover:bg-yellow-500/10 transition-colors rounded-sm">
+                                        {lang}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Interests */}
+                        <div className="border border-white/[0.06] bg-[#07111e]/60 backdrop-blur-xl rounded-sm p-6 space-y-4 hover:border-emerald-400/20 transition-all duration-500">
+                            <div className="flex items-center gap-3">
+                                <div className="w-1.5 h-1.5 bg-emerald-400 rotate-45" />
+                                <h4 className="text-xs font-black font-archivo tracking-[0.3em] uppercase text-emerald-400">Interests</h4>
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                                {skills.interests.map((item, i) => (
+                                    <span key={i} className="px-3 py-1 bg-emerald-400/[0.06] border border-emerald-400/20 text-emerald-400 font-mono text-[9px] uppercase tracking-widest hover:bg-emerald-400/10 transition-colors rounded-sm">
+                                        {item}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.div>
+                </motion.div>
             </div>
         </section>
     );
