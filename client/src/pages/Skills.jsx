@@ -2,164 +2,214 @@ import { motion } from 'framer-motion';
 import { usePortfolio } from '../context/PortfolioContext';
 import { fadeInUp, staggerContainer } from '../utils/animations';
 
+/* ── Infinite Marquee Strip ── */
+const MarqueeStrip = ({ skills, direction = 1, speed = 35 }) => {
+    // duplicate for seamless loop
+    const doubled = [...skills, ...skills, ...skills];
 
+    return (
+        <div className="relative overflow-hidden py-3 group">
+            {/* fade edges */}
+            <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#020408] to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#020408] to-transparent z-10 pointer-events-none" />
+
+            <motion.div
+                className="flex gap-4 w-max"
+                animate={{ x: direction > 0 ? ['0%', '-33.33%'] : ['-33.33%', '0%'] }}
+                transition={{ duration: speed, repeat: Infinity, ease: 'linear' }}
+            >
+                {doubled.map((skill, i) => (
+                    <div
+                        key={i}
+                        className="flex items-center gap-3 px-5 py-3 border border-white/[0.06] bg-[#07111e]/50 rounded-lg shrink-0 hover:border-cyan-400/40 hover:bg-cyan-400/5 transition-all duration-300 group/item cursor-default"
+                    >
+                        <span className={`text-xl ${skill.color} w-6 h-6 rounded-sm flex items-center justify-center text-black shrink-0 group-hover/item:scale-110 transition-transform`}>
+                            {skill.icons[0]}
+                        </span>
+                        <span className="text-sm font-bold font-archivo text-gray-400 group-hover/item:text-white transition-colors uppercase tracking-wide whitespace-nowrap">
+                            {skill.name}
+                        </span>
+                    </div>
+                ))}
+            </motion.div>
+        </div>
+    );
+};
+
+/* ── Featured Skill Card ── */
+const FeaturedCard = ({ skill, idx }) => (
+    <motion.div
+        className="group relative border border-white/[0.06] hover:border-cyan-400/35 bg-[#07111e]/60 backdrop-blur-xl rounded-2xl p-6 flex flex-col gap-4 transition-all duration-500 overflow-hidden"
+        variants={fadeInUp}
+        whileHover={{ y: -6 }}
+        transition={{ type: 'spring', stiffness: 200, damping: 18 }}
+    >
+        {/* glow */}
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/[0.04] via-transparent to-violet-400/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+        {/* top row */}
+        <div className="flex items-start justify-between">
+            <div className={`w-14 h-14 ${skill.color} rounded-xl flex items-center justify-center text-black text-3xl shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500`}>
+                {skill.icons[0]}
+            </div>
+            <div className="text-right">
+                <span className="text-[8px] font-mono text-cyan-400/40 uppercase tracking-widest block">
+                    {String(idx + 1).padStart(2, '0')}
+                </span>
+                <span className={`text-[9px] font-mono uppercase tracking-widest mt-1 block
+                    ${skill.level === 'Expert' ? 'text-cyan-400' :
+                        skill.level === 'Advanced' ? 'text-violet-400' :
+                            skill.level === 'Intermediate' ? 'text-blue-400' : 'text-gray-500'}`}>
+                    {skill.level}
+                </span>
+            </div>
+        </div>
+
+        {/* info */}
+        <div className="space-y-1 relative z-10">
+            <h3 className="text-lg font-black font-archivo text-white group-hover:text-cyan-400 transition-colors uppercase tracking-wide leading-tight">
+                {skill.name}
+            </h3>
+            <p className="text-gray-600 text-xs leading-relaxed">
+                {skill.description}
+            </p>
+        </div>
+
+        {/* category tag */}
+        <div className="flex items-center gap-2 mt-auto pt-3 border-t border-white/[0.05] relative z-10">
+            <div className="w-1 h-1 bg-cyan-400/40 rounded-full group-hover:bg-cyan-400 transition-colors" />
+            <span className="text-[9px] font-mono text-gray-700 uppercase tracking-widest group-hover:text-gray-400 transition-colors">
+                {skill.category}
+            </span>
+        </div>
+
+        {/* corner accents */}
+        <div className="absolute top-3 right-3 w-4 h-4 border-t border-r border-white/[0.08] group-hover:border-cyan-400/40 transition-all" />
+        <div className="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-white/[0.08] group-hover:border-cyan-400/40 transition-all" />
+    </motion.div>
+);
+
+/* ── Main ── */
 const Skills = () => {
     const { portfolioData } = usePortfolio();
     const { skills } = portfolioData;
 
-    // const technicalSkills = [];
+    const half = Math.ceil(skills.technical.length / 2);
+    const row1 = skills.technical.slice(0, half);
+    const row2 = skills.technical.slice(half);
 
     return (
         <section
             id="skills"
-            className="relative min-h-screen py-32 flex flex-col items-center justify-center bg-[#020408] text-white overflow-hidden"
+            className="relative min-h-screen py-28 md:py-36 bg-[#020408] text-white overflow-hidden"
         >
-            {/* NEURAL MATRIX BACKGROUND */}
-            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-                {/* 1. Logic Lattice */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
-
-                {/* 2. Pulsing Neural Nodes */}
-                {[...Array(15)].map((_, i) => (
-                    <motion.div
-                        key={i}
-                        className="absolute w-1 h-1 bg-cyan-400 rounded-full"
-                        style={{
-                            left: `${Math.random() * 100}%`,
-                            top: `${Math.random() * 100}%`,
-                        }}
-                        animate={{
-                            scale: [1, 2, 1],
-                            opacity: [0.1, 0.5, 0.1],
-                            boxShadow: ["0 0 0px #22d3ee", "0 0 20px #22d3ee", "0 0 0px #22d3ee"]
-                        }}
-                        transition={{
-                            duration: Math.random() * 4 + 2,
-                            repeat: Infinity,
-                            delay: Math.random() * 5
-                        }}
-                    />
-                ))}
-
-                {/* 3. Data Streams */}
-                <svg className="absolute inset-0 w-full h-full opacity-10">
-                    <motion.path
-                        d="M -100 500 Q 400 300 900 600 T 1900 500"
-                        stroke="cyan"
-                        fill="none"
-                        strokeWidth="1"
-                        animate={{ d: ["M -100 500 Q 400 300 900 600 T 1900 500", "M -100 600 Q 400 800 900 400 T 1900 600"] }}
-                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    />
-                </svg>
+            {/* ── Background ── */}
+            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.015)_1px,transparent_1px)] bg-[size:44px_44px]" />
+                <div className="absolute top-1/3 -left-32 w-[700px] h-[700px] bg-cyan-500/[0.06] rounded-full blur-[180px]" />
+                <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-violet-600/[0.05] rounded-full blur-[140px]" />
             </div>
 
-            <div className="container mx-auto px-6 z-10 box-border">
-                {/* PROTOCOL HEADER */}
+            <div className="z-10 relative">
+
+                {/* ── Header ── */}
+                <div className="container mx-auto px-5 sm:px-8">
+                    <motion.div
+                        className="flex flex-col items-center mb-16 md:mb-20 text-center"
+                        variants={fadeInUp}
+                        initial="initial"
+                        whileInView="animate"
+                        viewport={{ once: true }}
+                    >
+                        <div className="flex items-center gap-4 mb-5">
+                            <div className="h-px w-12 bg-gradient-to-r from-transparent to-cyan-400/60" />
+                            <span className="text-cyan-400 font-mono text-[10px] tracking-[0.6em] uppercase">Core Modules</span>
+                            <div className="h-px w-12 bg-gradient-to-l from-transparent to-cyan-400/60" />
+                        </div>
+                        <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black font-archivo text-white leading-none tracking-tighter uppercase">
+                            Arsenal<span className="text-cyan-400">.</span>
+                        </h2>
+                        <p className="mt-6 text-gray-500 text-sm md:text-base tracking-widest uppercase max-w-xl">
+                            Technologies and tools I work with daily.
+                        </p>
+                    </motion.div>
+                </div>
+
+                {/* ── Marquee Strips (full width) ── */}
                 <motion.div
-                    className="flex flex-col items-center mb-24 md:mb-32 text-center"
-                    variants={fadeInUp}
-                    initial="initial"
-                    whileInView="animate"
+                    className="mb-20 md:mb-28 space-y-3"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.8 }}
+                    viewport={{ once: true }}
                 >
-                    <div className="flex items-center gap-4 mb-4">
-                        <span className="text-cyan-400 font-mono text-[10px] tracking-[0.5em] uppercase">System_Version: 2.0.4</span>
-                        <div className="w-12 h-[1px] bg-cyan-400/30" />
-                        <span className="text-cyan-400 font-mono text-[10px] tracking-[0.5em] uppercase">Core_Modules</span>
-                    </div>
-                    <h2 className="text-6xl sm:text-8xl md:text-[11rem] font-black font-archivo text-white leading-none tracking-tighter uppercase relative">
-                        Arsenal<span className="text-cyan-400">.</span>
-                        <motion.div
-                            className="absolute -bottom-4 right-0 text-xs font-mono text-cyan-400/50"
-                            animate={{ opacity: [0.2, 0.8, 0.2] }}
-                            transition={{ duration: 1.5, repeat: Infinity }}
-                        >
-                            DATA_SET: LOADED
-                        </motion.div>
-                    </h2>
+                    <MarqueeStrip skills={row1} direction={1} speed={40} />
+                    <MarqueeStrip skills={row2} direction={-1} speed={35} />
                 </motion.div>
 
-                {/* SKILLS ARCHITECTURE */}
-                <motion.div
-                    className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8"
-                    variants={staggerContainer}
-                    initial="initial"
-                    whileInView="animate"
-                >
-                    {skills.technical.map((skill, idx) => (
-                        <motion.div
-                            key={idx}
-                            className="group relative bg-white/[0.01] border border-white/5 p-8 md:p-10 flex flex-col gap-6 hover:border-cyan-400/30 transition-all duration-500 rounded-sm overflow-hidden"
-                            variants={fadeInUp}
-                        >
-                            {/* Scanning Beam */}
-                            <motion.div
-                                className="absolute left-0 top-0 w-1 h-full bg-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity"
-                                animate={{ y: ['-100%', '100%'] }}
-                                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                            />
+                {/* ── Featured Cards ── */}
+                <div className="container mx-auto px-5 sm:px-8">
+                    <motion.div
+                        className="flex items-center gap-5 mb-10"
+                        variants={fadeInUp}
+                        initial="initial"
+                        whileInView="animate"
+                        viewport={{ once: true }}
+                    >
+                        <div className="h-px flex-grow bg-gradient-to-r from-transparent to-white/10" />
+                        <span className="text-xs font-black font-archivo tracking-[0.4em] uppercase text-gray-500">
+                            Detailed Breakdown of Technologies
+                        </span>
+                        <div className="h-px flex-grow bg-gradient-to-l from-transparent to-white/10" />
+                    </motion.div>
 
-                            <div className="flex items-start justify-between">
-                                <div className="flex items-center gap-6">
-                                    <div className={`w-14 h-14 md:w-20 md:h-20 ${skill.color} rounded-sm flex items-center justify-center text-black shadow-[0_0_30px_rgba(0,0,0,0.5)] transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-6`}>
-                                        <div className="text-3xl md:text-5xl">{skill.icons}</div>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <span className="text-cyan-400 font-mono text-[10px] tracking-widest uppercase mb-1">Module_{String(idx + 1).padStart(2, '0')}</span>
-                                        <h3 className="text-xl sm:text-2xl md:text-4xl font-black font-archivo text-white group-hover:text-cyan-400 transition-colors uppercase">
-                                            {skill.name}
-                                        </h3>
-                                    </div>
-                                </div>
-                                <div className="hidden md:flex flex-col items-end opacity-40 group-hover:opacity-100 transition-opacity">
-                                    <span className="text-[10px] font-mono tracking-tighter text-gray-500">STAT: ACTIVE</span>
-                                    <span className="text-[10px] font-mono tracking-tighter text-cyan-400">{skill.level}</span>
-                                </div>
-                            </div>
-
-                            <div className="space-y-4">
-                                <p className="text-gray-400 text-xs md:text-xs font-medium leading-relaxed uppercase tracking-wide">
-                                    {skill.description}
-                                </p>
-                                <div className="flex items-center gap-4">
-                                    <div className="h-[1px] flex-grow bg-white/5" />
-                                    <span className="text-[12px] font-mono text-cyan-400/50 uppercase tracking-[0.2em]">{skill.category}</span>
-                                </div>
-                            </div>
-
-                            {/* Corner Tech Decor */}
-                            <div className="absolute top-2 right-2 w-4 h-4 border-t border-r border-white/10" />
-                            <div className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-white/10" />
-                        </motion.div>
-                    ))}
-                </motion.div>
-
-                {/* OTHER TOOLS - HUD STRIP */}
-                <motion.div
-                    className="mt-24 md:mt-36 max-w-5xl mx-auto"
-                    variants={fadeInUp}
-                    initial="initial"
-                    whileInView="animate"
-                >
-                    <div className="flex items-center gap-6 mb-12">
-                        <div className="h-[1px] flex-grow bg-gradient-to-r from-transparent to-white/10" />
-                        <h3 className="text-xl md:text-2xl text-cyan-400 font-black font-archivo tracking-[0.4em] uppercase">Auxiliary_<span className="text-white">Skills</span></h3>
-                        <div className="h-[1px] flex-grow bg-gradient-to-l from-transparent to-white/10" />
-                    </div>
-
-                    <div className="flex flex-wrap justify-center gap-6">
-                        {skills.additional.map((tool, idx) => (
-                            <motion.span
-                                key={idx}
-                                className="px-8 py-3 bg-white/[0.02] border border-white/5 text-[10px] md:text-xs font-black font-archivo tracking-[0.3em] text-gray-500 hover:text-white hover:border-cyan-400/40 hover:bg-cyan-400/5 transition-all cursor-default relative overflow-hidden group"
-                                whileHover={{ y: -5 }}
-                            >
-                                <span className="relative z-10">{tool.toUpperCase()}</span>
-                                <div className="absolute inset-0 bg-cyan-400/10 translate-y-full group-hover:translate-y-0 transition-transform" />
-                            </motion.span>
+                    <motion.div
+                        className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                        variants={staggerContainer}
+                        initial="initial"
+                        whileInView="animate"
+                        viewport={{ once: true, margin: '-60px' }}
+                    >
+                        {skills.technical.map((skill, i) => (
+                            <FeaturedCard key={skill.name} skill={skill} idx={i} />
                         ))}
-                    </div>
-                </motion.div>
+                    </motion.div>
+
+                    {/* ── Additional Tools ── */}
+                    <motion.div
+                        className="mt-14 max-w-4xl mx-auto"
+                        variants={fadeInUp}
+                        initial="initial"
+                        whileInView="animate"
+                        viewport={{ once: true }}
+                    >
+                        <div className="flex items-center gap-5 mb-7">
+                            <div className="h-px flex-grow bg-gradient-to-r from-transparent to-white/10" />
+                            <span className="text-xs font-black font-archivo tracking-[0.4em] uppercase text-gray-500">
+                                Additional Tools & Technologies
+                            </span>
+                            <div className="h-px flex-grow bg-gradient-to-l from-transparent to-white/10" />
+                        </div>
+                        <div className="flex flex-wrap justify-center gap-3">
+                            {skills.additional.map((tool, i) => (
+                                <motion.span
+                                    key={i}
+                                    className="relative overflow-hidden px-5 py-2 bg-white/[0.02] border border-white/[0.07]
+                                               text-[10px] font-mono text-gray-500 hover:text-white hover:border-cyan-400/40
+                                               transition-all duration-300 cursor-default group rounded-full"
+                                    whileHover={{ y: -3 }}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: i * 0.05 }}
+                                    viewport={{ once: true }}
+                                >
+                                    <span className="relative z-10 uppercase tracking-widest">{tool}</span>
+                                    <div className="absolute inset-0 bg-cyan-400/[0.07] translate-y-full group-hover:translate-y-0 transition-transform duration-300 rounded-full" />
+                                </motion.span>
+                            ))}
+                        </div>
+                    </motion.div>
+                </div>
             </div>
         </section>
     );

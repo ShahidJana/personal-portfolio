@@ -118,7 +118,7 @@ const Contact = () => {
                 <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
                     {/* SOCIAL GRID - ARCHITECTURAL NODES */}
                     <motion.div
-                        className="lg:col-span-1 grid grid-cols-1 sm:grid-cols-1 gap-6 w-full"
+                        className="lg:col-span-1 grid grid-cols-1 sm:grid-cols-1 gap-4 w-full lg:order-2"
                         variants={staggerContainer}
                         initial="initial"
                         whileInView="animate"
@@ -130,30 +130,30 @@ const Contact = () => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 title={link.label}
-                                className="group relative bg-white/[0.01] border border-white/5 p-6 flex flex-col gap-4 hover:border-cyan-400/10 transition-all duration-500 rounded-sm overflow-hidden"
+                                className="group relative bg-white/[0.01] border border-white/5 p-4 flex items-center gap-4 hover:border-cyan-400/10 transition-all duration-500 rounded-sm overflow-hidden"
                                 variants={fadeInUp}
                                 whileHover={{ y: -8, translateZ: 50 }}
                             >
                                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-cyan-400/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                                <div className={`text-3xl ${link.color || 'text-cyan-400'} transition-all duration-500 group-hover:scale-125 group-hover:rotate-12`}>
+                                <div className={`text-2xl ${link.color || 'text-cyan-400'} transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 shrink-0`}>
                                     {link.icon}
                                 </div>
-                                <div className="flex flex-col">
-                                    <h3 className="text-lg font-black font-archivo text-white uppercase tracking-widest group-hover:text-cyan-400 transition-colors duration-300">{link.label}</h3>
+                                <div className="flex flex-col flex-1 min-w-0">
+                                    <h3 className="text-sm font-black font-archivo text-white uppercase tracking-widest group-hover:text-cyan-400 transition-colors duration-300">{link.label}</h3>
                                     <div className="max-h-0 group-hover:max-h-20 overflow-hidden transition-all duration-500 ease-in-out">
                                         <p className="text-[10px] font-mono text-white mt-2 break-all">
                                             {link.path.replace('mailto:', '').replace('tel:', '').replace('https://www.', '').replace('https://', '')}
                                         </p>
                                     </div>
                                 </div>
-                                <FiArrowUpRight className="absolute bottom-4 right-4 text-xl text-gray-700 group-hover:text-cyan-400 transition-colors" />
+                                <FiArrowUpRight className="text-lg text-gray-700 group-hover:text-cyan-400 transition-colors shrink-0" />
                             </motion.a>
                         ))}
                     </motion.div>
 
                     {/* CONSOLE FORM INTERFACE */}
                     <motion.div
-                        className="lg:col-span-2 w-full"
+                        className="lg:col-span-2 w-full lg:order-1"
                         variants={fadeInUp}
                         initial="initial"
                         whileInView="animate"
